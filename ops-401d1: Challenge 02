@@ -20,9 +20,9 @@ while True:
     ip = "127.0.0.1"
     response = os.system(f"ping {ip}")
     if 0 == response:
-        print(f"UP {ip} Ping Successful")
+        print(f"UP {ip} Ping was Successful")
     else:
-        print(f"DOWN {ip} Ping Unsuccessful")
+        print(f"DOWN {ip} Ping was Unsuccessful")
     time.sleep(2)
 
 # End
