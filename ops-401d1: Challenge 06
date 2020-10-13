@@ -2,7 +2,9 @@
 # Script Name: ops401Chall06.py
 # Author: Mario Pugh
 # Date of last revision: October 12, 2020
-# Description of purpose:
+# Description of purpose: File Encryption
+
+
 from cryptography.fernet import Fernet
 import time
 # Declare Variable
