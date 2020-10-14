@@ -5,24 +5,24 @@
 # Date of last revision: October 6, 2020
 # Description of purpose: Create an uptime sensor to evaluate host LAN up or down. 
 
-import os, time
-
+import os, time, datetime;
 # Declaration of functions
+def checkForPing(target):
 # Transmit a single ICMP (ping) packet to a specific IP every two seconds.
+    response = os.system("ping -c 1 " + target)
 # Evaluate the response as either success or failure.
 # Assign success or failure to a status variable.
-# For every ICMP transmission attempted, print the status variable along with a comprehensive timestamp and destination IP tested.
-# Example output: 2020-10-05 17:57:57.510261 Network Active to 8.8.8.8
-
-# Main
-
-while True:
-    ip = "127.0.0.1"
-    response = os.system(f"ping {ip}")
-    if 0 == response:
-        print(f"UP {ip} Ping was Successful")
+    if response == 0:
+        pingstatus = "Network Active"
     else:
-        print(f"DOWN {ip} Ping was Unsuccessful")
+        pingstatus = "Network Error"
+    return pingstatus
+pingstatus = checkForPing("127.0.0.1")
+# For every ICMP transmission attempted, print the status variable along with a comprehensive timestamp and destination IP tested.
+# Main
+# Example output: 2020-10-05 17:57:57.510261 Network Active to 127.0.0.1
+while True:
+    now = datetime.datetime.now()
+    print(str(now) + " " + pingstatus + " to 127.0.0.1")
     time.sleep(2)
-
 # End
