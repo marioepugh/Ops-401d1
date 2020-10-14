@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+# Script Name: OpsChall07.py
+# Author: Mario Pugh
+# Date of last revision: October 13, 2020
+# Description of purpose:
+import os
+from cryptography.fernet import Fernet
+import time
+path = "./allMySecrets"
+def interface():
+    print("""
+    Please select a mode.
+    1) Encrypt a folder (mode 1)
+    2) Decrypt a folder (mode 2)
+    3) exit
+    """)
+    userInput = input("option ? ")
+    if(userInput == "1"):
+        encryptFile()
+        ## Encrypt folder here
+        print("")
+    elif(userInput == "2"):
+        decryptFile()
+        ## Encrypt folder here
+        print("")
+    elif (userInput == "3"):
+        ## End of program
+        print("Thank you")
+        exit(0)
+    else:
+        print("please insert correct input here")
+        interface()
+def getFiles(dirNames):
+    completeFileList = list()
+    for (dirPath, dirName, fileName) in os.walk(dirNames):
+        completeFileList += [os.path.join(dirPath, file) for file in fileName]
+    for fil in completeFileList:
+        print(fil)
+# Encrypting the folder
+def encryptFile(file, key):
+    f = Fernet(key)
+    with open(file, "rb") as fileread:
+        readfile = fileread.read()
+    encryptFile = f.encrypt(readfile)
+    with open(file, "wb") as filewrite:
+        filewrite.write(encryptFile)
+        time.sleep(2)
+        print("Your file has been encrypted")
+# Decrypting the folder
+def decryptFile(file, key):
+    f = Fernet(key)
+    with open(file, "rb") as fileread:
+        # read the encrypted data
+        encrypted_data = fileread.read()
+    # decrypt data
+    decrypted_data = f.decrypt(encrypted_data)
+    # write the original file
+    with open(file, "wb") as filewrite:
+        filewrite.write(decrypted_data)
+getFiles(path)
+interface()
+# End
