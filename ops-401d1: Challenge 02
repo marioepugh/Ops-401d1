@@ -7,22 +7,22 @@
 
 import os, time, datetime;
 # Declaration of functions
-def checkForPing(target):
+def sendingPings(target):
 # Transmit a single ICMP (ping) packet to a specific IP every two seconds.
     response = os.system("ping -c 1 " + target)
 # Evaluate the response as either success or failure.
 # Assign success or failure to a status variable.
     if response == 0:
-        pingstatus = "Network Active"
+        sentPing = "Network Active"
     else:
-        pingstatus = "Network Error"
+        sentPing = "Network Error"
     return pingstatus
-pingstatus = checkForPing("127.0.0.1")
-# For every ICMP transmission attempted, print the status variable along with a comprehensive timestamp and destination IP tested.
+sentPing = sendingPings("127.0.0.1")
+# For every ICMP transmission attempted, print the status variable along with a comprehensive timestamp and destination IP tested every 3 seconds.
 # Main
 # Example output: 2020-10-05 17:57:57.510261 Network Active to 127.0.0.1
 while True:
     now = datetime.datetime.now()
-    print(str(now) + " " + pingstatus + " to 127.0.0.1")
-    time.sleep(2)
+    print(str(now) + " " + sentPing + " to 127.0.0.1")
+    time.sleep(3)
 # End
