@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+#script Name: ops401Chal11Scapy.py
+#Author: 
+#Date: 10/19/2020
+#Description of purpose: Port range scanning and packet sniffing
+
+import sys
+import socket
+import random
+import scapy
+from scapy.all import sr1,IP,ICMP,TCP
+
+# Declaration of variable
+host = “scranme.nmap.org”
+port_range = [21, 22, 23]
+src_port = 22
+dst_port = 22
+
+
+# Declaration of function
+for dst_port in port_range:
+    src_port = random.randint(1025,65534)
+    response = sr1(IP(dst=host)/TCP(sport=src_port,dport=dst_port,flags=“S”),timeout=1,verbose=0)
+    if response is None:
+        print(“packet filtered”)
+    elif(response.haslayer(TCP)):
+        if(response.getlayer(TCP).flags == 0x12): #port responding and open
+            print(“Port ” + str(dst_port)+” is open”)
+        elif (response.getlayer(TCP).flag == 0x14):
+            print(“Port ” + str(dst_port)+” is closed”)
+        else:
+            print(“The port was filtered and silently dropped”)
+# Main
+
+# End
