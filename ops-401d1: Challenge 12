@@ -1,0 +1,118 @@
+#! /usr/bin/env python3
+
+import random
+import ipaddress
+from scapy.all import ICMP, IP, sr1, TCP
+import os
+import sys
+import socket
+import scapy
+
+# Declare functions
+# function to load interface
+def interface():
+    os.system ("")
+    print("""
+    Please select a mode.
+    1) TCP Port Range Scanner for Specific Port (mode 1)
+    2) ICMP Ping Sweep (mode 2)
+    3) TCP Port Range Scanner (mode 3)
+    4) exit
+    """)
+    userInput = input(" ")
+    if(userInput == "1"):
+        rangeScanner()
+    elif(userInput == "2"):
+        pingSweep()
+    elif (userInput == "3"):
+        portRangeScanner()
+    elif (userInput == "4"):
+        print("Thank you using this application")
+        exit(0)
+    else:
+        print("put right input here")
+        interface()    
+
+
+
+# Define end host and TCP port range
+
+
+# Send SYN with random Src Port for each Dst port
+def rangeScanner():
+    host = “scanme.nmap.org”
+    port_range = [21, 22, 23]
+    src_port = 22
+    dst_port = 22
+
+    # Declaration of function
+    for dst_port in port_range:
+        src_port = random.randint(1025,65534)
+        response = sr1(IP(dst=host)/TCP(sport=src_port,dport=dst_port,flags=“S”),timeout=1,verbose=0)
+        if response is None:
+            print(“packet filtered”)
+        elif(response.haslayer(TCP)):
+            if(response.getlayer(TCP).flags == 0x12): 
+                print(“Port ” + str(dst_port)+” is open”)
+            elif (response.getlayer(TCP).flag == 0x14):
+                print(“Port ” + str(dst_port)+” is closed”)
+            else:
+                print(“The port was filtered and silently dropped”)
+
+# ICMP Ping Sweep
+def pingSweep():
+    host = "10.0.0.9"
+    port_range = [22, 23, 80, 443, 3389]
+
+    for dst_port in port_range:
+        src_port = random.randint(1025,65534)
+        resp = sr1(
+            IP(dst=host)/TCP(sport=src_port,dport=dst_port,flags="S"),timeout=1,
+            verbose=0,
+        )
+
+        if resp is None:
+            print(f"{host}:{dst_port} is filtered (silently dropped).")
+
+        elif(resp.haslayer(TCP)):
+            if(resp.getlayer(TCP).flags == 0x12):
+                # Send a gratuitous RST to close the connection
+                send_rst = sr(
+                    IP(dst=host)/TCP(sport=src_port,dport=dst_port,flags='R'),
+                    timeout=1,
+                    verbose=0,
+                )
+                print(f"{host}:{dst_port} is open.")
+
+            elif (resp.getlayer(TCP).flags == 0x14):
+                print(f"{host}:{dst_port} is closed.")
+
+        elif(resp.haslayer(ICMP)):
+            if(
+                int(resp.getlayer(ICMP).type) == 3 and
+                int(resp.getlayer(ICMP).code) in [1,2,3,9,10,13]
+            ):
+                print(f"{host}:{dst_port} is filtered (silently dropped).")
+
+# TCP Port range scanner
+def portRangeScanner():
+    network = "10.0.2.0/24"
+    ip_list = ipaddress.ip_network(network)
+    hosts_count = 0
+
+    for host in ip_list:
+        print("Pinging ",host,", please wait...")
+        response = sr1(
+            IP(dst=str(host))/ICMP(),
+            timeout=2,
+            verbose=0
+        )
+
+print(response)
+
+
+# Main
+while True:
+    interface()
+
+# End
