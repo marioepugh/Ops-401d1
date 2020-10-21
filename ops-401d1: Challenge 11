@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #script Name: ops401Chal11Scapy.py
-#Author: 
+#Author: Mario Pugh
 #Date: 10/19/2020
 #Description of purpose: Port range scanning and packet sniffing
 
