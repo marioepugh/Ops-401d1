@@ -1,0 +1,126 @@
+#!/usr/bin/env python3
+# Script:                   401 Op Challenge Day 16
+# Author:                   Mario Pugh
+# Date of latest revision:  10/26/20
+# Purpose:                  Automated Brute Force Wordlist Attack Tool (1 of 3)
+
+# Import libraries
+import itertools
+import operator 
+import time 
+
+#Declaration of variable
+def interface():
+    user_choice = input("""
+
+                                       .;;!!!@!!!;.
+.!!!!!;.                             .;!!!!!!!!!!!!!
+----!!!!!!.                       .;!!!!!!!!!!UWWW$$$   
+    :$$NWX!!:                  .:!!!!!!XUWW$$$$$$$$$P
+    $$$$$##WX!;            :<!!!!UW$$$$$"  $$$$$$$$#
+    $$$$$  $$$UX         :!!UW$$$$$$$$$$   4$$$$$*
+    ^$$$B  $$$$\           $$$$$$$$$$$$$   d$$R"
+      "*$bd$$$$            '*$$$$$$$$$$$$o+#"
+           ''''                ''''''''
+
+
+
+                                         xxxxx
+ xxxxxx                                xxx   
+     xx                              xxx
+      xx                            xxx
+       xx                         xxx  
+         xx                    xxx    
+            xxxxxxxxxxxxxxxxx x 
+                xxxxxxxxx
+                  xxxxx
+
+    Which attack would you like to perform?
+    1. Brute Force Mode 1 Attack Tool
+    2. Brute Force Mode 2 Attack Tool
+    3. Exit
+
+    """)
+
+    if(user_choice == "1"):
+        bfAttackToolMode1()
+    elif(user_choice == "2"):
+        bfAttackToolMode2()
+    else:
+        print("Exiting....")
+        exit()       
+
+# Mode 1: Offensive; Dictionary Iterator
+# Accepts a user input word list file path and iterates through the word list, assigning the word being read to a variable.
+def bfAttackToolMode1():
+    word_list = input("Enter a file to analyze: ")
+    filename=open(word_list, "r", encoding= "ISO-8859-1")
+    fileline=filename.readlines()
+
+    for line in fileline:
+# Print to the screen the value of the variable.
+        print(line)
+# Add a delay between words.\
+        time.sleep(2)
+
+# Mode 2: Defensive; Password Recognized
+# Accepts a user input string.
+# Accepts a user input word list file path.
+def bfAttackToolMode2(): 
+    cracked_password = input("Input the password to search: ")
+    cracked_list = input("Enter a file to analyze: ")   
+    filename=open(cracked_list, "r", encoding= "ISO-8859-1")
+    fileline=filename.read().splitlines() 
+
+    for line in fileline:
+
+        if str(line) == cracked_password:
+          print("Match found") 
+          break
+        else:
+          print("No match found") 
+    input()      
+
+# Search the word list for the user input string.   
+
+# Print to the screen whether the string appeared in the word list.
+ #   print()   
+
+
+# Defining lists 
+L1 = [1, 2, 3] 
+L2 = [2, 3, 4] 
+
+# Starting time before map  
+# function 
+t1 = time.time() 
+
+# Calculating result 
+# a, b, c = map(operator.mul, L1, L2) 
+
+# Ending time after map 
+# function 
+t2 = time.time() 
+
+# Time taken by map function 
+# print("Result:", a, b, c) 
+print("Time taken by map function: %.6f" %(t2 - t1)) 
+
+# Starting time before naive  
+# method 
+t1 = time.time() 
+
+# Calculating result usinf for loop 
+# print("Result:", end = " ") 
+for i in range(3): 
+    print(L1[i] * L2[i], end = " ") 
+
+# Ending time after naive 
+# method 
+t2 = time.time() 
+print("\nTime taken by for loop: %.6f" %(t2 - t1)) 
+
+# Main
+interface()
+
+# End
