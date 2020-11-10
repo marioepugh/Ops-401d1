@@ -5,6 +5,7 @@
 # Date of last revision: November 9, 2020
 # Description of purpose: Create an uptime sensor to evaluate host LAN up or down. 
 
+import logging
 import os, time, datetime;
 # Declaration of functions
 def sendingPings(target):
@@ -25,4 +26,14 @@ while True:
     now = datetime.datetime.now()
     print(str(now) + " " + sentPing + " to 127.0.0.1")
     time.sleep(3)
+    
+logging.basicConfig(filename='error_log.txt', level=logging.WARNING)
+print('Logging started')
+logging.debug('Debug Information')
+logging.info('info Information')
+logging.warning('warning Information')
+logging.error('error Information')
+logging.critical('critical Information')
+print('Logging end')
+    
 # End
