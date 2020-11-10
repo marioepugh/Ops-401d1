@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+# Script Name: uptimeSensor.py
+# Author: Mario Pugh
+# Date of last revision: November 9, 2020
+# Description of purpose: Create an uptime sensor to evaluate host LAN up or down. 
+
+import os, time, datetime;
+# Declaration of functions
+def sendingPings(target):
+# Transmit a single ICMP (ping) packet to a specific IP every two seconds.
+    response = os.system("ping -c 1 " + target)
+# Evaluate the response as either success or failure.
+# Assign success or failure to a status variable.
+    if response == 0:
+        sentPing = "Network Active"
+    else:
+        sentPing = "Network Error"
+    return pingstatus
+sentPing = sendingPings("127.0.0.1")
+# For every ICMP transmission attempted, print the status variable along with a comprehensive timestamp and destination IP tested every 3 seconds.
+# Main
+# Example output: 2020-10-05 17:57:57.510261 Network Active to 127.0.0.1
+while True:
+    now = datetime.datetime.now()
+    print(str(now) + " " + sentPing + " to 127.0.0.1")
+    time.sleep(3)
+# End
