@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+# Script:                   401 Op Challenge Day 31
+# Author:                   Mario Pugh
+# Date of latest revision:  11/16/20
+# Purpose:                  Signature-based Malware Detection Part (1 of 3)
+
+# Import libraries
+
+import os
+import time
+
+# Declaration of variable
+
+def helloWorld():
+    user_choice = input("""
+                                       .;;!!!@!!!;.
+.!!!!!;.                             .;!!!!!!!!!!!!!
+----!!!!!!.                       .;!!!!!!!!!!UWWW$$$   
+    :$$NWX!!:                  .:!!!!!!XUWW$$$$$$$$$P
+    $$$$$##WX!;            :<!!!!UW$$$$$"  $$$$$$$$#
+    $$$$$  $$$UX         :!!UW$$$$$$$$$$   4$$$$$*
+    ^$$$B  $$$$\           $$$$$$$$$$$$$   d$$R"
+      "*$bd$$$$            '*$$$$$$$$$$$$o+#"
+           ''''                '''''''''
+                                         xxxxx
+ xxxxxx                                xxx   
+     xx                              xxx
+      xx                            xxx
+       xx                         xxx  
+         xx                    xxx    
+            xxxxxxxxxxxxxxxxx x 
+                xxxxxxxxx
+                  xxxxx
+    """)
+
+
+# Declare functions
+
+# search of Linux OS
+def malwareSearcherLinux():
+    targetFile = input("Which file would you like to target?  ")
+    dir = input("Which directory would you like to search?  ")
+    os.system("ls " + str(dir) + " | echo \"Searched $(wc -l) files.\"")
+    os.system("find " + str(dir) + ' -name ' + str(targetFile) + " -print | echo \"Found $(grep -c /) files that matched:\"")
+    print("")
+    os.system("find " + str(dir) + ' -name ' + str(targetFile))
+    print("")
+
+
+# Main
+
+helloWorld()
+malwareSearcherLinux()
+
+# End
