@@ -37,10 +37,10 @@ print("""\
 
 # Declaration of function
 
-# Search Linux OS
+# Linux search
 def malwareSearcherLinux():
-    targetFile = input("Which file would you like to target?  ")
-    dir = input("Which directory would you like to search?  ")
+    targetFile = input("State the name of your target file  ")
+    dir = input("Enter the directory to search  ")
     os.system("ls " + str(dir) + " | echo \"Searched $(wc -l) files.\"")
     os.system("find " + str(dir) + ' -name ' + str(targetFile) + " -print | echo \"Found $(grep -c /) files that matched:\"")
     print("")
