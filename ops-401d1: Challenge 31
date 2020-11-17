@@ -9,11 +9,13 @@
 import os
 import time
 
-# Declaration of variable
+# Declaration of variables
 
-def helloWorld():
-    user_choice = input("""
-                                       .;;!!!@!!!;.
+#def helloWorld():
+#    artwork = input("""
+print("""\
+
+                                        .;;!!!@!!!;.
 .!!!!!;.                             .;!!!!!!!!!!!!!
 ----!!!!!!.                       .;!!!!!!!!!!UWWW$$$   
     :$$NWX!!:                  .:!!!!!!XUWW$$$$$$$$$P
@@ -31,12 +33,13 @@ def helloWorld():
             xxxxxxxxxxxxxxxxx x 
                 xxxxxxxxx
                   xxxxx
+
     """)
 
 
-# Declare functions
+# Declaration of function
 
-# search of Linux OS
+# Search Linux OS
 def malwareSearcherLinux():
     targetFile = input("Which file would you like to target?  ")
     dir = input("Which directory would you like to search?  ")
@@ -46,10 +49,8 @@ def malwareSearcherLinux():
     os.system("find " + str(dir) + ' -name ' + str(targetFile))
     print("")
 
-
 # Main
 
-helloWorld()
 malwareSearcherLinux()
 
 # End
