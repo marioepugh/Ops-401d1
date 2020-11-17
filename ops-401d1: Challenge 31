@@ -11,8 +11,6 @@ import time
 
 # Declaration of variables
 
-#def helloWorld():
-#    artwork = input("""
 print("""\
 
                                         .;;!!!@!!!;.
