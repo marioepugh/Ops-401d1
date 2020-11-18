@@ -1,0 +1,105 @@
+#!/usr/bin/env python3
+# Script:                   401 Op Challenge Day 32
+# Author:                   Mario Pugh
+# Date of latest revision:  11/17/20
+# Purpose:                  Signature-based Malware Detection Part (2 of 3)
+
+# Import libraries
+
+import hashlib,datetime, os
+import getpass
+from time import sleep
+
+# Declaration of variables
+cmd = "date"
+
+# Declaration of function
+def interface():
+    user_choice = input("""
+                                       .;;!!!@!!!;.
+.!!!!!;.                             .;!!!!!!!!!!!!!
+----!!!!!!.                       .;!!!!!!!!!!UWWW$$$   
+    :$$NWX!!:                  .:!!!!!!XUWW$$$$$$$$$P
+    $$$$$##WX!;            :<!!!!UW$$$$$"  $$$$$$$$#
+    $$$$$  $$$UX         :!!UW$$$$$$$$$$   4$$$$$*
+    ^$$$B  $$$$\           $$$$$$$$$$$$$   d$$R"
+      "*$bd$$$$            '*$$$$$$$$$$$$o+#"
+           ''''                '''''''''
+                                         xxxxx
+ xxxxxx                                xxx   
+     xx                              xxx
+      xx                            xxx
+       xx                         xxx  
+         xx                    xxx    
+            xxxxxxxxxxxxxxxxx x 
+                xxxxxxxxx
+                  xxxxx
+    Which would you like to perform?
+    1. Malware directory/file search Tool
+    2. Malware detection Tool
+    3. Exit
+    """)
+
+    if(user_choice == "1"):
+        malwareSearcherLinux()
+    elif(user_choice == "2"):
+        get_hashcode()
+    else:
+        print("Exiting....")
+        exit()    
+
+# Linux search
+def malwareSearcherLinux():
+# User inputs file name to search
+    targetFile = input("File name to search for  ")
+# User inputs directory to search in
+    dirSearched = input("Directory to search in ")
+# Prints date and time search commenced
+    os.system(cmd)
+# Directory searched, prints matched target file
+    os.system(" find " + dirSearched + " -name " + targetFile)
+    exit()
+
+### Getting the user input to search specified folder
+def get_hashcode():
+    folder_name = input("Enter the folder you want to scan? ")
+    output_search(folder_name)
+## Getting current time stamp
+def get_time():
+    dateTimeObj = datetime.datetime.now()
+    timestampStr = dateTimeObj.strftime("%b-%d-%Y-%H:%M:%S")
+    return timestampStr
+# Outputting final results
+def output_search(pt):
+    user = getpass.getuser()
+    if(pt == "~/"):
+        abs_path = f"C:/User/{user}"
+    else:
+        abs_path = os.path.abspath(pt)
+    print("Timestamp            File-name            Hash-code             Size     File-path")
+    for root, dirs, files in os.walk(abs_path):
+            for filo in files:
+                try:
+                    full_path= os.path.join(root, filo)
+                    hash_value = hash_co(full_path)
+                    print(f"{get_time()} {filo} {hash_value}   {os.path.getsize(full_path)}   {full_path}")
+                    sleep(1.5)
+                except Exception as msg:
+                    print(msg)
+                    continue
+## Getting the hash code.
+def hash_co(fn):
+    md_hash = hashlib.md5()
+    with open(fn, "rb") as f:
+        for byte_block in iter(lambda: f.read(4896),b""):
+            md_hash.update(byte_block)
+    f.close()
+    return md_hash.hexdigest()
+
+# Main
+
+interface()
+malwareSearcherLinux()
+get_hashcode()
+
+# End
