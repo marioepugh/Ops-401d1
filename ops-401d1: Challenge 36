@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+# Script:                   401 Ops Challenge Day 36
+# Author:                   Mario Pugh
+# Date of latest revision:  11/23/20
+# Purpose:                  Web Application Fingerprinting Part 1 of 3
+
+import os   
+import sys  
+import nmap 
+import socket
+import subprocess
+
+# Declaration of variables
+
+# Declaration of function
+def interface():
+    user_choice = input("""\
+
+    
+                                        .;;!!!@!!!;.
+.!!!!!;.                             .;!!!!!!!!!!!!!
+----!!!!!!.                       .;!!!!!!!!!!UWWW$$$   
+    :$$NWX!!:                  .:!!!!!!XUWW$$$$$$$$$P
+    $$$$$##WX!;            :<!!!!UW$$$$$"  $$$$$$$$#
+    $$$$$  $$$UX         :!!UW$$$$$$$$$$   4$$$$$*
+    ^$$$B  $$$$\           $$$$$$$$$$$$$   d$$R"
+      "*$bd$$$$            '*$$$$$$$$$$$$o+#"
+           ''''                '''''''''
+                                         xxxxx
+ xxxxxx                                xxx   
+     xx                              xxx
+      xx                            xxx
+       xx                         xxx  
+         xx                    xxx    
+            xxxxxxxxxxxxxxxxx x 
+                xxxxxxxxx
+                  xxxxx
+ 
+
+    What type of service fingerprinting would you like to perform?
+    1) TCP Port Range Scanner for Specific Port (mode 1)
+    2) (mode 2)
+    3) (mode 3)
+    4) exit
+    """)
+
+    if(user_choice == "1"):
+        mode1()
+    elif(user_choice == "2"):
+        mode2()
+    elif(user_choice == "3"):
+        mode3()
+    else:
+        print("Exiting....")
+    exit() 
+
+def mode1():
+        urlScanner = input("Please enter the URL or IP Address: ") # Prompts the user to type a URL or IP address.
+        portScanner = str(input("Please input a port number to target: ")) # Prompts the user to type a port number.
+        print(".........Nmap.........") 
+        process = subprocess.Popen(["nmap", "-sV", urlScanner]) # Performs banner grabbing using Nmap against the target address of all well-known ports; prints the results to the screen
+        try:
+            process.wait(timeout=3)
+        except:
+            process.kill()
+            "telnet ip port"
+        print(".........Telnet.........")    
+        process1 = subprocess.Popen(["telnet", urlScanner, portScanner]) # Performs banner grabbing using telnet against the target address at the target port; prints the results to the screen 
+        try:
+            process1.wait(timeout=3)
+        except:
+            process1.kill()
+        print(".........Netcat.........") 
+        process = subprocess.Popen(["netcat", urlScanner, portScanner]) # Performs banner grabbing using netcat against the target address at the target port; prints the results to the screen 
+        try:
+            process.wait(timeout=3)
+        except:
+            process.kill()   
+
+def mode2():
+    print("Come to Tuesday around 9pm")
+    exit()
+
+def mode3():
+    print("Come to Wednesday after 6pm")
+    exit()
+
+# Main
+
+interface()
+mode2()
+mode3()
+
+# End
