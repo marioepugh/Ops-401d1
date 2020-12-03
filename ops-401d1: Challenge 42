@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+
+# Script:                   401 Ops Challenge Day 42
+# Author:                   Mario Pugh
+# Date of latest revision:  12/3/20
+# Purpose:                  Attack Tools Part 
+
+import nmap
+
+scanner = nmap.PortScanner()
+
+print("Nmap Automation Tool")
+print("--------------------")
+
+ip_addr = input("IP address to scan: ")
+print("The IP you entered is: ", ip_addr)
+type(ip_addr)
+
+response = input("""\nPlease enter the type of scan you want to run
+                1)SYN ACK Scan
+                2)UDP Scan
+                3)Comprehensive Scan
+                4)Regular Scan\n""")
+print("You have selected option: ", response)
+
+range = '1-50'
+
+# If user's input is 1, perform a SYN/ACK scan
+if response == '1':
+    print("Nmap Version: ", scanner.nmap_version())
+    scanner.scan(ip_addr, '1-1024', '-v -sS')
+    print(scanner.scaninfo())
+#    print("Ip Status: ", scanner[ip_addr].state())
+    print("protocols:",scanner[ip_addr].all_protocols())
+    print("Open Ports: ", scanner[ip_addr]['tcp'].keys())
+    
+# If user's input is 2, perform a UDP Scan   
+elif response == '2':
+    print("Nmap Version: ", scanner.nmap_version())
+    scanner.scan(ip_addr, '1-1024', '-v -sU')
+    print(scanner.scaninfo())
+    print("Ip Status: ", scanner[ip_addr].state())
+    print("protocols:",scanner[ip_addr].all_protocols())
+    print("Open Ports: ", scanner[ip_addr]['udp'].keys())
+    
+# If user's input is 3, perform a Comprehensive scan
+elif response == '3':
+    print("Nmap Version: ", scanner.nmap_version())
+    scanner.scan(ip_addr, '1-1024', '-v -sS -sV -sC -A -O')
+    print(scanner.scaninfo())
+    print("Ip Status: ", scanner[ip_addr].state())
+    print(scanner[ip_addr].all_protocols())
+    print("Open Ports: ", scanner[ip_addr]['tcp'].keys())
+
+# If user's input is 4, perform a Regular Scan
+elif response == '4':
+    scanner.scan(ip_addr)
+    print(scanner.scaninfo())
+    print("Ip Status: ", scanner[ip_addr].state())
+    print(scanner[ip_addr].all_protocols())
+    print("Open Ports: ", scanner[ip_addr]['tcp'].keys())    
+    
+else:
+    print("Please choose a number from the options above")
