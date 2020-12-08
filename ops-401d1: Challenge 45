@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+
+# Script:                   401 Ops Challenge Day 45
+# Author:                   Mario Pugh
+# Date of latest revision:  12/8/20
+# Purpose:                  Create a Banner Grabber
+
+import socket
+
+def bannergrab(host, port):
+    timeout = 3000
+    sockmod = socket.socket()
+    sockmod.connect((host, port))
+    sockmod.settimeout(timeout)
+    print(sockmod.recv(1024))
+
+def main():
+    host = input("What IP address? ")
+    port = input("What port? ")
+    bannergrab(host, port)
+
+main()
